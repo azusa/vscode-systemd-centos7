@@ -1,6 +1,12 @@
 FROM centos:7
 ENV container docker
 
+RUN sed -i -e 's/^mirrorlist/#mirrorlist/g' -e 's/^#baseurl=http:\/\/mirror/baseurl=http:\/\/vault/g' /etc/yum.repos.d/CentOS-*repo
+
+RUN yum clean all
+
+RUN yum repolist -v
+
 RUN yum update -y
 
 RUN yum -y install  wget
@@ -24,5 +30,5 @@ RUN adduser vscode
 RUN yum -y install sudo git
 RUN echo 'vscode ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-VOLUME [ "/sys/fs/cgroup" ]
-CMD ["/usr/sbin/init"]
+#VOLUME [ "/sys/fs/cgroup" ]
+#CMD ["/usr/sbin/init"]
